@@ -1,4 +1,3 @@
-# $Id: PKGBUILD,v 1.6 2008/02/27 22:57:43 roman Exp $
 # Maintainer: Roman Kyrylych <roman@archlinux.org>
 # Contributor: Alessio 'mOLOk' Bolognino <themolok@gmail.com>
 
