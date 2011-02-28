@@ -3,7 +3,7 @@
 pkgbase=transmission
 pkgname=('transmission-cli' 'transmission-gtk' 'transmission-qt')
 pkgver=2.21
-pkgrel=2
+pkgrel=3
 arch=('i686' 'x86_64')
 url="http://www.transmissionbt.com/"
 license=('MIT')
@@ -18,7 +18,7 @@ build() {
 
   export CFLAGS="$CFLAGS -fno-strict-aliasing"
 
-  ./configure --prefix=/usr
+  ./configure --prefix=/usr --disable-gconf2
   make
   pushd qt
   qmake qtr.pro
@@ -45,7 +45,7 @@ package_transmission-cli() {
 package_transmission-gtk() {
   pkgdesc="Fast, easy, and free BitTorrent client (GTK+ GUI)"
   depends=('curl' 'libevent' 'libnotify' 'desktop-file-utils' 'hicolor-icon-theme'
-           'gtk2' 'gconf')
+           'gtk2' 'dbus-glib')
   optdepends=('notification-daemon: Desktop notification support'
   	      'transmission-cli: daemon and web support')
   install=transmission-gtk.install
