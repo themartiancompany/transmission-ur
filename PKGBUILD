@@ -4,11 +4,12 @@
 pkgbase=transmission
 pkgname=('transmission-cli' 'transmission-gtk' 'transmission-qt')
 pkgver=2.92
-pkgrel=1
+pkgrel=2
 arch=('i686' 'x86_64')
 url="http://www.transmissionbt.com/"
 license=('MIT')
-makedepends=('gtk3' 'intltool' 'curl' 'qt5-base' 'libevent' 'systemd')
+makedepends=('gtk3' 'intltool' 'curl' 'qt5-base' 'libevent' 'systemd'
+             'qt5-tools')
 source=(https://download.transmissionbt.com/files/transmission-${pkgver}.tar.xz
         transmission-2.90-libsystemd.patch)
 md5sums=('3fce404a436e3cd7fde80fb6ed61c264'
@@ -17,6 +18,7 @@ md5sums=('3fce404a436e3cd7fde80fb6ed61c264'
 prepare() {
   cd $pkgbase-$pkgver
   patch -p1 -i "$srcdir/transmission-2.90-libsystemd.patch"
+  rm -f m4/glib-gettext.m4
   autoreconf -fi
 }
 
@@ -28,6 +30,7 @@ build() {
   cd qt
   qmake qtr.pro
   make
+  lrelease translations/*.ts
 }
 
 package_transmission-cli() {
@@ -69,6 +72,8 @@ package_transmission-qt() {
   cd $pkgbase-$pkgver
 
   make -C qt INSTALL_ROOT="$pkgdir"/usr install
+  install -Dm644 -t "$pkgdir/usr/share/transmission-qt/translations" \
+    qt/translations/*.qm
 
   install -Dm644 COPYING "$pkgdir/usr/share/licenses/transmission-qt/COPYING"
   install -Dm644 qt/icons/transmission.png \
