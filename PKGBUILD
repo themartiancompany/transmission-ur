@@ -395,6 +395,9 @@ package_transmission-gtk() {
     'libnotify: Desktop notification support'
     'transmission-cli: daemon and web support'
   )
+  provides=(
+    "${_pkg}=${pkgver}"
+  )
   cd \
     "${_tarname}"
   _component_install \
@@ -426,6 +429,9 @@ package_transmission-qt() {
   )
   optdepends=(
     'transmission-cli: daemon and web support'
+  )
+  provides=(
+    "${_pkg}=${pkgver}"
   )
   cd \
     "${_tarname}"
