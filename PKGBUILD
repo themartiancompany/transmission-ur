@@ -262,7 +262,7 @@ _component_install() {
     "${_dir}/install"
 }
 
-_install_termux_service_install() {
+_termux_service_install() {
   local \
     _service_dir \
     _service_log \
@@ -349,6 +349,7 @@ package_transmission-cli() {
       "${pkgdir}/usr/lib/systemd/system/${_pkg}.service"
   fi
   if [[ "${_termux_services}" == "true" ]]; then
+    _termux_service_install
   fi
   install \
     -Dm644 \
