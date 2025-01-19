@@ -166,7 +166,29 @@ prepare() {
       -p1 \
       -i \
       "../0002-no-quota.patch"
+    patch \
+      -p1 \
+      -i \
+      "../0003-fix-paths.patch"
   fi
+}
+
+_usr_get() {
+  local \
+    _bin
+  _bin="$( \
+    dirname \
+      "$(command \
+           -v \
+	   "clang" \
+	   "cxx" \
+	   "g++") | \
+	   head \
+	     -n \
+	     1")"
+  echo \
+    "$(dirname \
+         "${_bin}")"
 }
 
 build() {
@@ -197,6 +219,7 @@ build() {
     _tests_opt="OFF"
   fi
   _cmake_opts+=(
+    -DCMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES="$(_usr_get)/include"
     -DCMAKE_BUILD_TYPE="RelWithDebInfo"
     -DCMAKE_INSTALL_PREFIX="/usr"
     -DENABLE_CLI="ON"
