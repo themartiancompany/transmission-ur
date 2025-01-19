@@ -91,7 +91,6 @@ makedepends=(
   "curl"
   "dht"
   "intltool"
-  "libb64"
   "libdeflate"
   "libevent"
   "libpsl"
@@ -100,6 +99,11 @@ makedepends=(
   "ninja"
   "openssl>=3"
 )
+if [[ "${_b64}" == "true" ]]; then
+  makedepends+=(
+    "libb64"
+  )
+fi
 if [[ "${_remote}" == "true" ]]; then
   makedepends+=(
     "npm"
@@ -376,10 +380,14 @@ package_transmission-cli() {
     'curl'
     'libdeflate'
     'libevent'
-    'libb64'
-    'libnatpmp'
+    "${_natpmp}"
     'miniupnpc'
   )
+  if [[ "${_b64}" == "true" ]]; then
+    depends+=(
+      'libb64'
+    )
+  fi
   if [[ "${_os}" == "Android" ]]; then
     depends+=(
       "${_libc}"
@@ -445,12 +453,16 @@ package_transmission-gtk() {
     'gtkmm-4.0'
     'hicolor-icon-theme'
     'libayatana-indicator'
-    'libb64'
     'libdeflate'
     'libevent'
-    'libnatpmp'
+    "${_natpmp}"
     'miniupnpc'
   )
+  if [[ "${_b64}" == "true" ]]; then
+    depends+=(
+      'libb64'
+    )
+  fi
   optdepends=(
     'libnotify: Desktop notification support'
     'transmission-cli: daemon and web support'
@@ -479,14 +491,18 @@ package_transmission-qt() {
   depends=(
     'curl'
     'libayatana-indicator'
-    'libb64'
     'libdeflate'
     'libevent'
     'miniupnpc'
-    'libnatpmp'
+    "${_natpmp}"
     'qt6-base'
     'qt6-svg'
   )
+  if [[ "${_b64}" == "true" ]]; then
+    depends+=(
+      'libb64'
+    )
+  fi
   optdepends=(
     'transmission-cli: daemon and web support'
   )
