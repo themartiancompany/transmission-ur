@@ -196,11 +196,16 @@ _usr_get() {
 build() {
   local \
     _cmake_opts=() \
+    _cxxflags=() \
     _b64_opt \
     _gtk_opt \
     _tests_opt \
     _qt_opt \
     _web_opt
+  _cxxflags+=(
+    -Wno-sign-compare
+    -Wno-error-sign-compare
+  )
   if [[ "${_b64}" == "true" ]]; then
     _b64_opt="ON"
   elif [[ "${_b64}" == "false" ]]; then
@@ -252,7 +257,7 @@ build() {
   if [[ "${_os}" == "Android" ]]; then
     _cmake_opts+=(
       -DCMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES="$(_usr_get)/include/c++/v1"
-      -DCMAKE_CXX_FLAGS="-Wno-sign-compare -Wno-error-sign-compare"
+      -DCMAKE_CXX_FLAGS="${_cxxflags[*]}"
     )
   fi
   if [[ "${_nls}" == "false" ]]; then
@@ -262,8 +267,11 @@ build() {
   fi
   # export \
   #   CFLAGS+=" -ffat-lto-objects"
+  export \
+    CXXFLAGS="${_cxxflags[*]}"
   cd \
     "${_tarname}"
+  CXXFLAGS="${_cxxflags[*]}" \
   cmake \
     -G \
       Ninja \
