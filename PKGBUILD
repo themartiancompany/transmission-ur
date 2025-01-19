@@ -227,7 +227,6 @@ build() {
     _tests_opt="OFF"
   fi
   _cmake_opts+=(
-    -DCMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES="$(_usr_get)/include"
     -DCMAKE_BUILD_TYPE="RelWithDebInfo"
     -DCMAKE_INSTALL_PREFIX="/usr"
     -DENABLE_CLI="ON"
@@ -250,13 +249,19 @@ build() {
     -DUSE_SYSTEM_UTP="OFF"
     -DWITH_CRYPTO="openssl"
   )
+  if [[ "${_os}" == "Android" ]]; then
+    _cmake_opts+=(
+      -DCMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES="$(_usr_get)/include/c++/v1"
+      -DCMAKE_CXX_FLAGS="-Wno-sign-compare -Wno-error-sign-compare"
+    )
+  fi
   if [[ "${_nls}" == "false" ]]; then
     _cmake_opts+=(
       -DENABLE_NLS="OFF"
     )
   fi
-  export \
-    CFLAGS+=" -ffat-lto-objects"
+  # export \
+  #   CFLAGS+=" -ffat-lto-objects"
   cd \
     "${_tarname}"
   cmake \
