@@ -26,6 +26,7 @@
 # Contributor : Thomas Weißschuh <thomas t-8ch de>
 # Contributor : Florian Pritz <bluewind@xinu.at>
 
+_b64="true"
 _gtk="true"
 _qt="true"
 _ui="true"
@@ -39,6 +40,7 @@ _os="$( \
   uname \
     -o)"
 if [[ "${_os}" == "Android" ]]; then
+  _b64="false"
   _natpmp="${_natpmp}c"
   _nls="false"
   _libc="libc++"
