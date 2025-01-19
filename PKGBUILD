@@ -185,7 +185,7 @@ _usr_get() {
 	   "g++" | \
 	   head \
 	     -n \
-	     1)"
+	     1)")"
   echo \
     "$(dirname \
          "${_bin}")"
@@ -194,10 +194,16 @@ _usr_get() {
 build() {
   local \
     _cmake_opts=() \
+    _b64_opt \
     _gtk_opt \
     _tests_opt \
     _qt_opt \
     _web_opt
+  if [[ "${_b64}" == "true" ]]; then
+    _b64_opt="ON"
+  elif [[ "${_b64}" == "false" ]]; then
+    _b64_opt="OFF"
+  fi
   if [[ "${_gtk}" == "true" ]]; then
     _gtk_opt="ON"
   elif [[ "${_gtk}" == "false" ]]; then
@@ -232,7 +238,7 @@ build() {
     -DENABLE_UTILS="ON"
     -DENABLE_UTP="ON"
     -DINSTALL_LIB="ON"
-    -DUSE_SYSTEM_B64="ON"
+    -DUSE_SYSTEM_B64="${_b64_opt}"
     -DUSE_SYSTEM_DEFLATE="ON"
     -DUSE_SYSTEM_DHT="ON"
     -DUSE_SYSTEM_EVENT2="ON"
