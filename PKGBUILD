@@ -182,10 +182,10 @@ _usr_get() {
            -v \
 	   "clang" \
 	   "cxx" \
-	   "g++") | \
+	   "g++" | \
 	   head \
 	     -n \
-	     1")"
+	     1)"
   echo \
     "$(dirname \
          "${_bin}")"
