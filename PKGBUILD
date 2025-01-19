@@ -288,6 +288,9 @@ build() {
     -B \
       "build" \
     "${_cmake_opts[@]}"
+  mkdir \
+    -p \
+    "build/web/node_modules/@ampproject"
   cmake \
     --build \
       "build" \
@@ -338,6 +341,9 @@ _termux_service_install() {
     'mkdir -p "$LOGDIR/sv/transmission"'
     'exec svlogd "$LOGDIR/sv/transmission"'
   )
+  install \
+    -vdm755 \
+    "${pkgdir}/${_service_dir}/log"
   printf \
     "%s\n" \
     "${_service_run[@]}" > \
@@ -393,27 +399,29 @@ package_transmission-cli() {
     _component_install \
       "${_dir}"
   done
-  install \
-    -dm755 \
+  mkdir \
+    -p \
     "${pkgdir}/usr/share/${_pkg}"
   if [[ "${_remote}" == "true" ]]; then
     cp \
       -a \
-      "build/web/public_html/" \
+      "${srcdir}/${_tarname}/build/web/public_html" \
       "${pkgdir}/usr/share/${_pkg}"
   fi
   if [[ "${_systemd}" == "true" ]]; then
     install \
-      -Dm644 \
-      "daemon/${_pkg}-daemon.service" \
+      -vDm644 \
+      "${srcdir}/${_tarname}/daemon/${_pkg}-daemon.service" \
       "${pkgdir}/usr/lib/systemd/system/${_pkg}.service"
   fi
   if [[ "${_termux_services}" == "true" ]]; then
     _termux_service_install
   fi
+  msg \
+    "current position: $(pwd)"
   install \
     -Dm644 \
-    "COPYING" \
+    "${srcdir}/${_tarname}/COPYING" \
     "${pkgdir}/usr/share/licenses/${_pkg}-cli/COPYING"
   install \
     -Dm644 \
@@ -421,7 +429,7 @@ package_transmission-cli() {
     "${pkgdir}/usr/lib/sysusers.d/${_pkg}.conf"
   install \
     -Dm644 \
-    "${srcdir}/${pkg}-cli.tmpfiles" \
+    "${srcdir}/${_pkg}-cli.tmpfiles" \
     "${pkgdir}/usr/lib/tmpfiles.d/${_pkg}.conf"
 }
 
