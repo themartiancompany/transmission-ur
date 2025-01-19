@@ -322,6 +322,11 @@ package_transmission-cli() {
     'libnatpmp'
     'miniupnpc'
   )
+  if [[ "${_os}" == "Android" ]]; then
+    depends+=(
+      "${_libc}"
+    )
+  fi
   if [[ "${_systemd}" == "true" ]]; then
     depends+=(
       'systemd'
