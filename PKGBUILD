@@ -430,7 +430,7 @@ package_transmission-qt() {
 }
 
 package_libtransmission() {
-  pkgdesc=(
+  _pkgdesc=(
     'Fast, easy, and free'
     'BitTorrent client'
     '(shared library)'
