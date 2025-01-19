@@ -1,40 +1,108 @@
+# SPDX-License-Identifier: AGPL-3.0
+#
+# Maintainer: Truocolo <truocolo@aol.com>
+# Maintainer: Pellegrino Prevete (tallero) <pellegrinoprevete@gmail.com>
 # Contributor : Tom Gundersen <teg@jklm.no>
 # Contributor : Ionut Biru <ibiru@archlinux.org>
 # Contributor : Thomas Weißschuh <thomas t-8ch de>
 # Contributor : Florian Pritz <bluewind@xinu.at>
 
-pkgbase=transmission
-pkgname=(transmission-cli transmission-gtk transmission-qt libtransmission)
+_gtk="true"
+_qt="true"
+_ui="true"
+_systemd="true"
+_os="$( \
+  uname \
+    -o)"
+if [[ "${_os}" == "Android" ]]; then
+  _libc="libc++"
+  _systemd="false"
+  _ui="false"
+fi
+if [[ "${_ui}" == "false" ]]; then
+  _gtk="false"
+  _qt="false"
+fi
+_pkg="transmission"
+pkgbase="${_pkg}"
+pkgname=(
+  "${_pkg}-cli"
+  "lib${_pkg}"
+)
+if [[ "${_gtk}" == "true" ]]; then
+  pkgname+=(
+    "${_pkg}-gtk"
+  )
+fi
+if [[ "${_qt}" == "true" ]]; then
+  pkgname+=(
+    "${_pkg}-qt"
+  )
+fi
 pkgver=4.0.6
 pkgrel=3
-arch=(x86_64)
-url="http://www.transmissionbt.com/"
-license=(GPL)
-makedepends=(
-	cmake
-	curl
-	dht
-	glibmm-2.68
-	gtk4
-	gtkmm-4.0
-	intltool
-	libayatana-indicator
-	libb64
-	libdeflate
-	libevent
-	libnatpmp
-	miniupnpc
-	ninja
-	npm
-	qt6-base
-	qt6-svg
-	qt6-tools
-	systemd
+arch=(
+  'x86_64'
+  'i686'
+  'arm'
+  'armv7l'
+  'armv6l'
+  'aarch64'
+  'mips'
+  'powerpc'
+  'pentium4'
 )
-source=(https://github.com/transmission/transmission/releases/download/$pkgver/transmission-$pkgver.tar.xz
-        febfe49c.patch
-        transmission-cli.sysusers
-        transmission-cli.tmpfiles)
+url="http://www.${_pkg}bt.com"
+license=(
+  "GPL"
+)
+makedepends=(
+  "cmake"
+  "curl"
+  "dht"
+  "intltool"
+  "libb64"
+  "libdeflate"
+  "libevent"
+  "libnatpmp"
+  "miniupnpc"
+  "ninja"
+  "npm"
+)
+if [[ "${_systemd}" == "true" ]]; then
+  depends+=(
+    "systemd"
+  )
+fi
+if [[ "${_ui}" == "true" ]]; then
+  depends+=(
+    "libayatana-indicator"
+  )
+fi
+if [[ "${_gtk}" == "true" ]]; then
+  depends+=(
+    "glibmm-2.68"
+    "gtk4"
+    "gtkmm-4.0"
+  )
+fi
+if [[ "${_qt}" == "true" ]]; then
+  depends+=(
+    "qt6-base"
+    "qt6-svg"
+    "qt6-tools"
+  )
+fi
+
+_http="https://github.com"
+_ns="transmission"
+_url="${_http}/${_ns}/${_pkg}"
+source=(
+  "${_url}/releases/download/${pkgver}/${_pkg}-${pkgver}.tar.xz"
+  "febfe49c.patch"
+  "${_pkg}-cli.sysusers"
+  "${_pkg}-cli.tmpfiles"
+)
 sha256sums=('2a38fe6d8a23991680b691c277a335f8875bdeca2b97c6b26b598bc9c7b0c45f'
             '1e5917c79a0c17595f18b544c5c1ab101ecbef5b2ffb0ca42a0a3b221a85e044'
             '641310fb0590d40e00bea1b5b9c843953ab78edf019109f276be9c6a7bdaf5b2'
@@ -145,3 +213,4 @@ package_libtransmission() {
   install -Dm644 libtransmission/*.h -t "$pkgdir"/usr/include/transmission
   install -Dm644 COPYING "$pkgdir/usr/share/licenses/libtransmission/COPYING"
 }
+
