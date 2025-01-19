@@ -332,6 +332,9 @@ package_transmission-cli() {
       'systemd'
     )
   fi
+  provides=(
+    "${_pkg}=${pkgver}"
+  )
   cd \
     "${_tarname}"
   for _dir in "daemon" "cli" "web" "utils"; do
