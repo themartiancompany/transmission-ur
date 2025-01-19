@@ -197,6 +197,7 @@ build() {
   local \
     _cmake_opts=() \
     _cxxflags=() \
+    _ldflags=() \
     _b64_opt \
     _gtk_opt \
     _tests_opt \
@@ -204,7 +205,9 @@ build() {
     _web_opt
   _cxxflags+=(
     -Wno-sign-compare
-    -Wno-error-sign-compare
+  )
+  _ldflags+=(
+    -llog
   )
   if [[ "${_b64}" == "true" ]]; then
     _b64_opt="ON"
@@ -258,6 +261,9 @@ build() {
     _cmake_opts+=(
       -DCMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES="$(_usr_get)/include/c++/v1"
       -DCMAKE_CXX_FLAGS="${_cxxflags[*]}"
+      -DCMAKE_EXEC_LINKER_FLAGS_INIT="${_ldflags[*]}"
+      -DCMAKE_MODULE_LINKER_FLAGS_INIT="${_ldflags[*]}"
+      -DCMAKE_SHARED_LINKER_FLAGS_INIT="${_ldflags[*]}"
     )
   fi
   if [[ "${_nls}" == "false" ]]; then
@@ -268,10 +274,12 @@ build() {
   # export \
   #   CFLAGS+=" -ffat-lto-objects"
   export \
-    CXXFLAGS="${_cxxflags[*]}"
+    CXXFLAGS="${_cxxflags[*]}" \
+    LDFLAGS="${_ldflags[*]}"
   cd \
     "${_tarname}"
   CXXFLAGS="${_cxxflags[*]}" \
+  LDFLAGS="${_ldflags[*]}" \
   cmake \
     -G \
       Ninja \
