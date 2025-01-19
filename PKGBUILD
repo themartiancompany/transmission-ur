@@ -32,7 +32,7 @@ _qt="true"
 _ui="true"
 _systemd="true"
 _remote="true"
-_natpmp="libnatpmp"
+_natpmp="natpmp"
 _nls="auto"
 _termux_services="false"
 _tests="true"
@@ -48,6 +48,8 @@ if [[ "${_os}" == "Android" ]]; then
   _termux_services="true"
   _tests="false"
   _ui="false"
+elif [[ "${_os}" == "GNU/Linux" ]]; then
+  _natpmp="lib${_natpmp}c"
 fi
 if [[ "${_ui}" == "false" ]]; then
   _gtk="false"
