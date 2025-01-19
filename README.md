@@ -1,4 +1,4 @@
-# `solidity-compiler`
+# `transmission`
 
 universal recipe for [user repo](../themartiancompany/ur).
 
