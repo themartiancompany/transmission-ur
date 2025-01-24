@@ -1,12 +1,13 @@
+# Maintainer: Caleb Maclennan <caleb@alerque.com>
 # Contributor : Tom Gundersen <teg@jklm.no>
 # Contributor : Ionut Biru <ibiru@archlinux.org>
 # Contributor : Thomas Weißschuh <thomas t-8ch de>
 # Contributor : Florian Pritz <bluewind@xinu.at>
 
 pkgbase=transmission
-pkgname=(transmission-cli transmission-gtk transmission-qt libtransmission)
+pkgname=(transmission-cli transmission-gtk transmission-qt)
 pkgver=4.0.6
-pkgrel=4
+pkgrel=5
 arch=(x86_64)
 url="http://www.transmissionbt.com/"
 license=(GPL)
@@ -135,14 +136,4 @@ package_transmission-qt() {
   _install_component qt
 
   install -Dm644 COPYING "$pkgdir/usr/share/licenses/transmission-qt/COPYING"
-}
-
-package_libtransmission() {
-  pkgdesc='Fast, easy, and free BitTorrent client (shared library)'
-
-  cd $pkgbase-$pkgver
-
-  install -Dm644 build/libtransmission/libtransmission.a -t "$pkgdir"/usr/lib
-  install -Dm644 libtransmission/*.h -t "$pkgdir"/usr/include/transmission
-  install -Dm644 COPYING "$pkgdir/usr/share/licenses/libtransmission/COPYING"
 }
