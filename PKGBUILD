@@ -7,7 +7,7 @@
 pkgbase=transmission
 pkgname=(transmission-cli transmission-gtk transmission-qt)
 pkgver=4.0.6
-pkgrel=8
+pkgrel=9
 arch=(x86_64)
 url="http://www.transmissionbt.com/"
 license=(GPL-2.0-or-later)
@@ -18,7 +18,6 @@ makedepends=(cmake
              gtk4
              gtkmm-4.0
              intltool
-             libayatana-indicator
              libb64
              libdeflate
              libevent
@@ -118,7 +117,6 @@ package_transmission-gtk() {
 	         gtk4
 	         gtkmm-4.0
 	         hicolor-icon-theme
-	         libayatana-indicator
 	         libb64
 	         libdeflate
 	         libevent
