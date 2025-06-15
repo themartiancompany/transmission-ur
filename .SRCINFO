@@ -1,6 +1,6 @@
 pkgbase = transmission
 	pkgver = 4.0.6
-	pkgrel = 9
+	pkgrel = 10
 	url = http://www.transmissionbt.com/
 	arch = x86_64
 	license = GPL-2.0-or-later
