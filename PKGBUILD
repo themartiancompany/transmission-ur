@@ -88,6 +88,7 @@ url="http://www.${_pkg}bt.com"
 license=(
   "GPL"
 )
+depends=()
 makedepends=(
   "cmake"
   "curl"
@@ -96,11 +97,15 @@ makedepends=(
   "libdeflate"
   "libevent"
   "libpsl"
-  "${_natpmp}"
   "miniupnpc"
   "ninja"
   "openssl>=3"
 )
+if [[ -v "_natpmp" ]]; then
+  makedepends+=(
+    "${_natpmp}"
+  )
+fi
 if [[ "${_b64}" == "true" ]]; then
   makedepends+=(
     "libb64"
@@ -384,7 +389,8 @@ package_transmission-cli() {
     'libevent'
     'miniupnpc'
   )
-  if [[ -v "_natpmp" ]]; then
+  if [[ -v "_natpmp" && \
+	"${depends[*]}" != "" ]]; then
     depends+=(
       "${_natpmp}"
     )
@@ -395,9 +401,11 @@ package_transmission-cli() {
     )
   fi
   if [[ "${_os}" == "Android" ]]; then
-    depends+=(
-      "${_libc}"
-    )
+    if [[ -v "_libc" ]]; then
+      depends+=(
+        "${_libc}"
+      )
+    fi
   fi
   if [[ "${_systemd}" == "true" ]]; then
     depends+=(
@@ -406,6 +414,9 @@ package_transmission-cli() {
   fi
   provides=(
     "${_pkg}=${pkgver}"
+  )
+  conflicts=(
+    "${_pkg}"
   )
   cd \
     "${_tarname}"
@@ -461,9 +472,13 @@ package_transmission-gtk() {
     'libayatana-indicator'
     'libdeflate'
     'libevent'
-    "${_natpmp}"
     'miniupnpc'
   )
+  if [[ -v "_natpmp" ]]; then
+    depends+=(
+      "${_natpmp}"
+    )
+  fi
   if [[ "${_b64}" == "true" ]]; then
     depends+=(
       'libb64'
@@ -500,10 +515,14 @@ package_transmission-qt() {
     'libdeflate'
     'libevent'
     'miniupnpc'
-    "${_natpmp}"
     'qt6-base'
     'qt6-svg'
   )
+  if [[ -v "_natpmp" ]]; then
+    depends+=(
+      "${_natpmp}"
+    )
+  fi
   if [[ "${_b64}" == "true" ]]; then
     depends+=(
       'libb64'
