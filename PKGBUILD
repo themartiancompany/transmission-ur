@@ -28,6 +28,9 @@
 #     <pellegrinoprevete@gmail.com>
 #     <dvorak@0x87003Bd6C074C713783df04f36517451fF34CBEf>
 # Contributor:
+#   Caleb Maclennan
+#     <caleb@alerque.com>
+# Contributor:
 #   Tom Gundersen
 #     <teg@jklm.no>
 # Contributor:
@@ -164,11 +167,13 @@ _url="${_http}/${_ns}/${_pkg}"
 source=(
   "${_url}/releases/download/${pkgver}/${_tarname}.tar.xz"
   "0001-miniupnpc-2.2.8-fix.patch"
+  "febfe49c.patch"
   "${_pkg}-cli.sysusers"
   "${_pkg}-cli.tmpfiles"
 )
 sha256sums=(
   '2a38fe6d8a23991680b691c277a335f8875bdeca2b97c6b26b598bc9c7b0c45f'
+  '1e5917c79a0c17595f18b544c5c1ab101ecbef5b2ffb0ca42a0a3b221a85e044'
   '1e5917c79a0c17595f18b544c5c1ab101ecbef5b2ffb0ca42a0a3b221a85e044'
   '641310fb0590d40e00bea1b5b9c843953ab78edf019109f276be9c6a7bdaf5b2'
   '1266032bb07e47d6bcdc7dabd74df2557cc466c33bf983a5881316a4cc098451'
@@ -201,6 +206,11 @@ prepare() {
       -i \
       "../0003-fix-paths.patch"
   fi
+  # Fix build with miniupnpc 2.2.8
+  patch \
+    -p1 \
+    -i \
+    "../febfe49c.patch"
 }
 
 _usr_get() {
@@ -299,8 +309,10 @@ build() {
       -DENABLE_NLS="OFF"
     )
   fi
-  # export \
-  #   CFLAGS+=" -ffat-lto-objects"
+  if [[ "${_os}" == "GNU/Linux" ]]; then
+    export \
+      CFLAGS+=" -ffat-lto-objects"
+  fi
   export \
     CXXFLAGS="${_cxxflags[*]}" \
     LDFLAGS="${_ldflags[*]}"
