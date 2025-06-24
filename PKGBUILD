@@ -382,9 +382,13 @@ package_transmission-cli() {
     'curl'
     'libdeflate'
     'libevent'
-    "${_natpmp}"
     'miniupnpc'
   )
+  if [[ -v "_natpmp" ]]; then
+    depends+=(
+      "${_natpmp}"
+    )
+  fi
   if [[ "${_b64}" == "true" ]]; then
     depends+=(
       'libb64'
