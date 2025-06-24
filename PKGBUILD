@@ -49,6 +49,7 @@ if [[ "${_os}" == "Android" ]]; then
   _tests="false"
   _ui="false"
 elif [[ "${_os}" == "GNU/Linux" ]]; then
+  _libc="gcc-libs"
   _natpmp="lib${_natpmp}c"
 fi
 if [[ "${_ui}" == "false" ]]; then
@@ -88,7 +89,9 @@ url="http://www.${_pkg}bt.com"
 license=(
   "GPL"
 )
-depends=()
+depends=(
+  "${_libc}"
+)
 makedepends=(
   "cmake"
   "curl"
