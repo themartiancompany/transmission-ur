@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0
 
 #    ----------------------------------------------------------------------
-#    Copyright © 2025  Pellegrino Prevete
+#    Copyright © 2024, 2025  Pellegrino Prevete
 #
 #    All rights reserved
 #    ----------------------------------------------------------------------
@@ -19,12 +19,26 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-# Maintainer: Truocolo <truocolo@aol.com>
-# Maintainer: Pellegrino Prevete (tallero) <pellegrinoprevete@gmail.com>
-# Contributor : Tom Gundersen <teg@jklm.no>
-# Contributor : Ionut Biru <ibiru@archlinux.org>
-# Contributor : Thomas Weißschuh <thomas t-8ch de>
-# Contributor : Florian Pritz <bluewind@xinu.at>
+# Maintainer:
+#   Truocolo
+#     <truocolo@aol.com>
+#     <truocolo@0x6E5163fC4BFc1511Dbe06bB605cc14a3e462332b>
+# Maintainer:
+#   Pellegrino Prevete (dvorak)
+#     <pellegrinoprevete@gmail.com>
+#     <dvorak@0x87003Bd6C074C713783df04f36517451fF34CBEf>
+# Contributor:
+#   Tom Gundersen
+#     <teg@jklm.no>
+# Contributor:
+#   Ionut Biru
+#     <ibiru@archlinux.org>
+# Contributor:
+#   Thomas Weißschuh
+#     <thomas t-8ch de>
+# Contributor:
+#   Florian Pritz
+#     <bluewind@xinu.at>
 
 _b64="true"
 _gtk="true"
